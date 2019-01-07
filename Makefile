@@ -1,2 +1,2 @@
 run:
-	python inverse.py
+	python number-theory/modular-arithmetic/inverse.py
