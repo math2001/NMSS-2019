@@ -8,14 +8,14 @@ def generate_prime(n):
     with open(FILENAME, 'a') as fo:
         while True:
             if is_prime(n):
-                fo.write(f"{n}\n")
+                fo.write(f'{n}\n')
                 count += 1
                 if count % timeout == 0:
                     t = round(time.time() - last, 3)
-                    print(f'{count} primes generated {timeout}/{t}s  ',
+                    print(f'{count} primes generated {timeout}/{t}s (up to {n}) ',
                           end='\r')
                     last = time.time()
-            n += 1
+            n += 2
 
 def get_last_prime():
     try:
