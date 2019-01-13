@@ -1,11 +1,5 @@
 from inverse import inverse
 
-def is_prime(n):
-    for d in range(2, int(n ** .5) + 1):
-        if n % d == 0:
-            return False
-    return True
-
 def generator_rows(table, mod):
     for y, row in enumerate(table):
         # len(table) is the number of unit
@@ -29,41 +23,38 @@ def get_table(mod):
                 max_width = len(str(n))
     return table, max_width
 
-def display_table(mod):
-    table, max_width = get_table(mod)
-    gen_rows = list(generator_rows(table, mod))
+def display_table(table, max_width, mod, generators):
     print('mod:', mod)
-
     for y, row in enumerate(table):
         for cell in row:
             print(str(cell).rjust(max_width), end=' ')
-        if y in gen_rows:
+        if y in generators:
             print('gen')
         else:
             print()
     return table
+
+def gen_row_numbers(table, generators):
+    if len(generators) == 0:
+        return "This set isn't cyclic"
+    cardinality = len(table)
+    first = generators[0]
+    for x, cell in enumerate(table[first]):
+        if x % 2 == 1 or cardinality % (x + 1) == 0:
+            continue
+        if cell - 1 not in generators:
+            print(table[first], generators, cell, x, cardinality)
+            return False
+    return True
 
 def graph(numbers):
     import matplotlib.pyplot as plt
     plt.plot(numbers)
     plt.show()
 
-official_mods = []
-
-display_table(55)
-exit()
-
-mods = []
-for mod in range(100):
-    table, _ = get_table(mod)
-    if len(list(generator_rows(table, mod))) != 0:
-        mods.append(mod)
-
-gens = []
-for n in mods:
-    gens.append(n)
-
-graph(gens)
-# for mod in [9]:
-#     display_table(mod)
+mod = 15
+table, max_width = get_table(mod)
+generators = list(generator_rows(table, mod))
+display_table(table, max_width, mod, generators)
+print(gen_row_numbers(table, generators))
 
