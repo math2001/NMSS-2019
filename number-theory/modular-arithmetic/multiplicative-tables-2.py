@@ -1,5 +1,10 @@
 from inverse import inverse
-from primes import is_prime
+
+def is_prime(n):
+    for d in range(2, int(n ** .5) + 1):
+        if n % d == 0:
+            return False
+    return True
 
 def gcd(a, b):
     """ Euclid's algorithm """
@@ -47,7 +52,8 @@ class Table:
 
     def display(self):
         print('mod:  ', self.mod)
-        print('card:  ', len(self.units))
+        print('prime:', is_prime(self.mod))
+        print('card: ', len(self.units))
         print('units:', ' '.join(str(u) for u in self.units))
         columns_names = ' '.join(
             str(n).rjust(self.cell_width) for n in range(1, self.mod))
@@ -87,16 +93,16 @@ class Table:
         return True
 
     def gen_inverse(self):
-        """ An other conjecture: if n is a generator, 1 / n is as well """
+        """ Another conjecture: if n is a generator, 1 / n is as well """
         for gen in self.gens:
             if inverse(gen, self.mod) not in self.gens:
                 return False
         return True
 
-def showmod(mod):
-    t = Table(mod)
-    t.display()
-    print(mod, t.first_to_all())
+def showmod(*mods):
+    for mod in mods:
+        t = Table(mod)
+        t.display()
 
 def test_sud():
     for mod in range(1, 100):
@@ -116,11 +122,32 @@ def test_sud_inverse():
 
 def generators():
     gen_mods = []
-    for mod in range(1, 100):
+    for mod in range(1, 150):
         t = Table(mod)
         t.get_gens()
         if len(t.gens):
             gen_mods.append(mod)
     print(gen_mods)
 
-generators()
+def repl():
+    while True:
+        mod = int(input('> '))
+        showmod(mod)
+
+def graph(ns):
+    import matplotlib.pyplot as plt
+    plt.plot(ns)
+    plt.show()
+
+def first_gen():
+    g = []
+    for mod in range(1, 100):
+        t = Table(mod)
+        t.get_gens()
+        if len(t.gens) and not is_prime(mod):
+            g.append((mod, t.gens[0]))
+    print(g)
+    # graph(g)
+
+first_gen()
+repl()
