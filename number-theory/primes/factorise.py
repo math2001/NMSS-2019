@@ -18,6 +18,7 @@ if __name__ == '__main__':
         try:
             n = int(input('> '))
         except ValueError:
+            print('invalid number')
             break
         else:
             factors, left = factorise(n)

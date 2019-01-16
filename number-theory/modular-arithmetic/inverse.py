@@ -1,4 +1,4 @@
-def inverse(x, mod):
+def inverse(mod, x):
     # den * i = num where 0 <= i < mod
     # because we take the inverse of x, den is x, and num is one
     for i in range(mod):
@@ -6,5 +6,6 @@ def inverse(x, mod):
             return i
     return -1
 
-# if __name__ == '__main__':
-#     print(inverse())
+if __name__ == '__main__':
+    while True:
+        print(inverse(int(input('mod: ')), int(input('x: '))))

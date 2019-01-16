@@ -16,9 +16,9 @@ def units(mod):
     """ The units are all the elements that have inverses """
     u = []
     for n in range(1, mod):
-        if inverse(n, mod) != -1:
+        if inverse(mod, n) != -1:
             u.append(n)
-    return u
+    return u.copy()
 
 class Table:
 
@@ -35,26 +35,26 @@ class Table:
                 if len(str(self.data[-1][-1])) > self.cell_width:
                     self.cell_width = len(str(self.data[-1][-1]))
 
-        self.gens = self.get_gens()
+        self.gens = []
+        for row in self.data:
+            if self.is_gen(row):
+                self.gens.append(row[0])
 
     def is_gen(self, row):
         return len(set(row)) == len(self.units)
 
-    def get_gens(self):
+    def _get_gens(self):
         """ Get gens return the first element of the rows that are generators
         Rememember that the first column is just x^1
         """
-        gens = []
-        for row in self.data:
-            if self.is_gen(row):
-                gens.append(row[0])
-        return gens
 
     def display(self):
-        print('mod:  ', self.mod)
-        print('prime:', is_prime(self.mod))
-        print('card: ', len(self.units))
-        print('units:', ' '.join(str(u) for u in self.units))
+        print('mod:       ', self.mod)
+        print('prime:     ', is_prime(self.mod))
+        print('card:      ', len(self.units))
+        print('units:     ', f'({len(self.units)})', ', '.join(str(u) for u in self.units))
+        print('generators:', f'({len(self.gens)})', ', '.join(str(u) for u in self.gens))
+        print()
         columns_names = ' '.join(
             str(n).rjust(self.cell_width) for n in range(1, self.mod))
         print(columns_names)
@@ -124,7 +124,6 @@ def generators():
     gen_mods = []
     for mod in range(1, 150):
         t = Table(mod)
-        t.get_gens()
         if len(t.gens):
             gen_mods.append(mod)
     print(gen_mods)
@@ -143,11 +142,12 @@ def first_gen():
     g = []
     for mod in range(1, 100):
         t = Table(mod)
-        t.get_gens()
         if len(t.gens) and not is_prime(mod):
             g.append((mod, t.gens[0]))
     print(g)
     # graph(g)
 
-first_gen()
-repl()
+# first_gen()
+showmod(3 ** 4)
+# repl()
+
