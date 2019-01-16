@@ -51,7 +51,6 @@ class Table:
     def display(self):
         print('mod:       ', self.mod)
         print('prime:     ', is_prime(self.mod))
-        print('card:      ', len(self.units))
         print('units:     ', f'({len(self.units)})', ', '.join(str(u) for u in self.units))
         print('generators:', f'({len(self.gens)})', ', '.join(str(u) for u in self.gens))
         print()
@@ -103,6 +102,7 @@ def showmod(*mods):
     for mod in mods:
         t = Table(mod)
         t.display()
+        print()
 
 def test_sud():
     for mod in range(1, 100):
@@ -148,6 +148,6 @@ def first_gen():
     # graph(g)
 
 # first_gen()
-showmod(3 ** 4)
+showmod(121, 81, 169)
 # repl()
 
